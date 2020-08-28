@@ -47,7 +47,6 @@ in {
       templates   = "$HOME/templates";
       videos      = "$HOME/videos";
     };
-    # 9cc9abee4ecf2ea9669ffda899488a93ddb75ed6
     programs.git = {
       enable = true;
       package = pkgs.gitAndTools.gitFull;
