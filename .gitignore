@@ -2,3 +2,5 @@ generated/
 result
 secrets.json
 *.qcow2
+.gitsecret/keys/random_seed
+!*.secret
