@@ -1,0 +1,128 @@
+{
+    "NUR": {
+        "branch": "master",
+        "description": "Nix User Repository: User contributed nix packages [maintainer=@Mic92]",
+        "homepage": "",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "ed81f9cbfb857e572413b9ce0543472137e6b803",
+        "sha256": "18z3faj89yrviinxwab92q73lkifag568vp7p2k20cxfx2zwh17x",
+        "type": "tarball",
+        "url": "https://github.com/nix-community/NUR/archive/ed81f9cbfb857e572413b9ce0543472137e6b803.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "emacs-overlay": {
+        "branch": "master",
+        "description": "Bleeding edge emacs overlay [maintainer=@adisbladis] ",
+        "homepage": "",
+        "owner": "nix-community",
+        "repo": "emacs-overlay",
+        "rev": "a53e2fe7f9bf75003f823afd7aa7023df9b07237",
+        "sha256": "0a4sh0mvckzrl01x9mcm2g1xapa278dj5f22kz5g227c6jr5nm50",
+        "type": "tarball",
+        "url": "https://github.com/nix-community/emacs-overlay/archive/a53e2fe7f9bf75003f823afd7aa7023df9b07237.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "ganixpkgs": {
+        "ref": "update-modem-manager-gui",
+        "repo": "/home/ao/code/ganixpkgs",
+        "rev": "6efc41df533fe3886d024f1bb4fdf147ebcc2d02",
+        "type": "git"
+    },
+    "home-manager": {
+        "branch": "master",
+        "description": "Manage a user environment using Nix",
+        "homepage": "https://rycee.gitlab.io/home-manager/",
+        "owner": "rycee",
+        "repo": "home-manager",
+        "rev": "6cf6b587b575493e7718bf08b209013d7dcf4d58",
+        "sha256": "0666ayxazbphjn5xcrczv8m7k2q62k224fvf0kz1lx9qjn93wkvr",
+        "type": "tarball",
+        "url": "https://github.com/rycee/home-manager/archive/6cf6b587b575493e7718bf08b209013d7dcf4d58.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "jdk7pkgs": {
+        "branch": "cef9812b934d0d8de64d6e547a3385af9fe9ef9f",
+        "description": "Nix Packages collection",
+        "homepage": null,
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "cef9812b934d0d8de64d6e547a3385af9fe9ef9f",
+        "sha256": "1z1c7ckz6k86gd8yv0pc4pz7azh5581p6m1as8jlm623dyihpaca",
+        "type": "tarball",
+        "url": "https://github.com/nixos/nixpkgs/archive/cef9812b934d0d8de64d6e547a3385af9fe9ef9f.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "niv": {
+        "branch": "master",
+        "description": "Easy dependency management for Nix projects",
+        "homepage": "https://github.com/nmattia/niv",
+        "owner": "nmattia",
+        "repo": "niv",
+        "rev": "89ae775e9dfc2571f912156dd2f8627e14d4d507",
+        "sha256": "0ssw6byyn79fpyzswi28s5b85x66xh4xsfhmcfl5mkdxxpmyy0ns",
+        "type": "tarball",
+        "url": "https://github.com/nmattia/niv/archive/89ae775e9dfc2571f912156dd2f8627e14d4d507.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs": {
+        "branch": "nixos-unstable",
+        "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
+        "homepage": "https://github.com/NixOS/nixpkgs",
+        "owner": "NixOS",
+        "repo": "nixpkgs-channels",
+        "rev": "c59ea8b8a0e7f927e7291c14ea6cd1bd3a16ff38",
+        "sha256": "1ak7jqx94fjhc68xh1lh35kh3w3ndbadprrb762qgvcfb8351x8v",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs-channels/archive/c59ea8b8a0e7f927e7291c14ea6cd1bd3a16ff38.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs-chromium": {
+        "branch": "master",
+        "description": "Chrome Wayland builds for NixOS users (Feb2020- working)",
+        "homepage": "",
+        "owner": "colemickens",
+        "repo": "nixpkgs-chromium",
+        "rev": "6b6ba812f3ba52922f668e48684ced76883e775c",
+        "sha256": "0d5gmcnalh3x154mg40cx70d48a9nvn5x8kkcp2xxp0cha6hqh96",
+        "type": "tarball",
+        "url": "https://github.com/colemickens/nixpkgs-chromium/archive/6b6ba812f3ba52922f668e48684ced76883e775c.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs-master": {
+        "branch": "master",
+        "description": "Nix Packages collection",
+        "homepage": null,
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5622b6b6feb669edc227aaf000413d5b593d4051",
+        "sha256": "1chgv1hdggl0dw3j7fj4mgy7lx3jjv1f801faj31icczqw1jcxkb",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/5622b6b6feb669edc227aaf000413d5b593d4051.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "spacemacs": {
+        "branch": "develop",
+        "description": "A community-driven Emacs distribution - The best editor is neither Emacs nor Vim,  it's Emacs *and* Vim!",
+        "homepage": "http://spacemacs.org",
+        "owner": "syl20bnr",
+        "repo": "spacemacs",
+        "rev": "15d93914f5caf6a3a15c573da60576313b0eee04",
+        "sha256": "1a41ga6v3hxvagj7abwxh01cr88f7c4qd2f4cybrvl1mpk30kkk7",
+        "type": "tarball",
+        "url": "https://github.com/syl20bnr/spacemacs/archive/15d93914f5caf6a3a15c573da60576313b0eee04.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "zsh-vim-mode": {
+        "branch": "master",
+        "description": "Friendly bindings for ZSH's vi mode",
+        "homepage": "",
+        "owner": "softmoth",
+        "repo": "zsh-vim-mode",
+        "rev": "abef0c0c03506009b56bb94260f846163c4f287a",
+        "sha256": "0cnjazclz1kyi13m078ca2v6l8pg4y8jjrry6mkvszd383dx1wib",
+        "type": "tarball",
+        "url": "https://github.com/softmoth/zsh-vim-mode/archive/abef0c0c03506009b56bb94260f846163c4f287a.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}

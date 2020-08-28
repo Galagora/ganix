@@ -1,0 +1,73 @@
+/*
+Other references:
+Firefox Support forum - Tabs below the URL bar: https://support.mozilla.org/en-US/kb/forum-response-tabs-below-url-bar
+Custom CSS tweaks for Firefox Quantum: https://github.com/Aris-t2/CustomCSSforFx
+*/
+
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+
+/*
+tabs to bottom
+source: https://gist.github.com/Arty2/e6e61801531ec5ee1f9f
+*/
+
+/* bring the browser window to the top */
+#browser {
+    -moz-box-ordinal-group: 0 !important;
+}
+
+/* alternative: move the toolbar to the bottom; */
+#appMenu-viewCache + box {
+    -moz-box-ordinal-group: 2 !important;
+}
+
+/* place tabs below url bar */
+#titlebar /* #toolbar-menubar */ {
+    -moz-box-ordinal-group: 1000 !important;
+}
+
+/* place options below tab bar */
+#toolbar-menubar {
+    -moz-box-ordinal-group: 1000 !important;
+}
+
+/* hide tab toolbar when fullscreen */
+#nav-bar[inFullscreen],
+#TabsToolbar[inFullscreen] {
+    display: none;
+}
+
+/* hide titlebar buttons */
+#TabsToolbar > .titlebar-buttonbox-container {
+    display: none !important;
+}
+
+/* TABS: on bottom */
+/* #navigator-toolbox toolbar:not(#nav-bar):not(#toolbar-menubar) {-moz-box-ordinal-group:10} */
+/* #TabsToolbar {-moz-box-ordinal-group:1000!important} */
+
+/* set tab width */
+.tabbrowser-tab:not([pinned]) {
+    min-width: 40px !important;
+}
+
+/* don't show favicon on active tab */
+.tabbrowser-tab[visuallyselected="true"] > .tab-stack > .tab-content > .tab-icon-image {
+    display: none;
+}
+/* .urlbarView { */
+
+/* } */
+#urlbar[focused]{
+    top: auto !important;
+    bottom: 0px !important;
+    display: flex !important;
+    flex-direction: column-reverse;
+}
+/* .urlbarView { */
+/*     order:3; */
+/* } */
+/* #urlbar-input-container { */
+/*     top: auto !important; */
+/*     bottom: 0px !important; */
+/* } */

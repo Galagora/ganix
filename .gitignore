@@ -1,0 +1,4 @@
+generated/
+result
+secrets.json
+*.qcow2
