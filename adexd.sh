@@ -1,7 +1,6 @@
 #/usr/bin/env bash
 
-# A horrible little bash script to implement XDG autostart with systemd
-# on NixOS without a desktop environment. Requires Perl.
+# XDG autostart using systemd. Requires Perl.
 # Put `systemd.user.services = with builtins; fromJSON (readfile ./generated/autostart.json;)` in configuration.nix
 # See: https://github.com/jceb/dex#autostart-alternative
 

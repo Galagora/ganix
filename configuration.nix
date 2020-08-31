@@ -63,7 +63,7 @@ in {
     # Shell utilities
     mkpasswd gitAndTools.gitFull wget unzip tealdeer pavucontrol
     jq /*Parse JSON*/ neofetch ripgrep parted fd /*find*/
-    iftop cdrkit /*genisoimage*/
+    iftop cdrkit /*genisoimage*/ strace
     # (lib.lowPrio busybox) /*traceroute*/
     # System info
     lshw lsof /*list open files*/ glxinfo inxi /*debugging info*/
@@ -98,6 +98,9 @@ in {
     usbutils atinout modemmanager minicom tio ganixpkgs.modem-manager-gui
     unrar gcc gdb
     usb-modeswitch
+    glib /*gdbus*/ qt512.qttools /*qdbus*/
+    # bustle
+    dfeet gnome3.gnome-software
     # openjdk11
     # Shells and scripting languages
     zsh fish elvish
@@ -124,7 +127,6 @@ in {
     buku transmission-gtk deluge aria2
     # Entertainment
     youtube-dl mpv vlc spotify
-    playerctl
     # Documents
     zathura # joplin-desktop
     graphviz shotwell
@@ -137,10 +139,15 @@ in {
     yaru-theme ubuntu-themes
     # Desktop
     gnome3.nautilus dolphin
+    xdg_utils xorg.xdpyinfo xorg.xrdb
+    playerctl brightnessctl
   ] ++ ( with pkgs.python38Packages; [
     # python-language-server
   ]);
 
+  services.flatpak.enable = true;
+  xdg.portal.enable       = true;
+  xdg.portal.gtkUsePortal = true;
   # 1. Samsung phones aren't modems
   # 2. Modeswitch for the usb modem
   services.udev.extraRules = ''
@@ -208,7 +215,6 @@ in {
       grimshot
       wmfocus /*focus windows by label*/
       xwayland xeyes wev /*record wayland kb events*/
-      xdg_utils xdpyinfo xrdb
       alacritty
     ];
     extraSessionCommands = ''
@@ -365,11 +371,14 @@ in {
   hardware.pulseaudio.enable = true;
   hardware.pulseaudio.package = pkgs.pulseaudioFull;
   hardware.pulseaudio.extraModules = [pkgs.pulseaudio-modules-bt];
+  hardware.pulseaudio.extraConfig = ''
+    load-module module-switch-on-connect
+  '';
   hardware.bluetooth = {
     enable = true;
     package = pkgs.bluezFull;
     config = {
-      General = { ControllerMode = "bredr"; };
+      # General = { ControllerMode = "bredr"; };
     };
   };
   services.blueman.enable = true;

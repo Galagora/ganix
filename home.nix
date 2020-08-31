@@ -54,6 +54,9 @@ in {
       userEmail = "lightningstrikeiv@gmail.com";
       extraConfig = {
         credential.helper = "libsecret";
+        github = {
+          user = "galagora";
+        };
       };
     };
 
