@@ -1,3 +1,2 @@
 :set prompt "λ> "
-:set prompt-cont ""
-:set -w
+:set prompt-cont "| "

@@ -167,7 +167,7 @@ bar {
     # respectively.
 
     # EDITED
-    bindsym $mod+b splith
+    bindsym $mod+g splith
     bindsym $mod+v splitv
 
     # Switch the current container between different layout styles

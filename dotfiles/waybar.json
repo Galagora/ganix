@@ -30,9 +30,8 @@
         },
         "on-click": "pavucontrol"
     },
-    "tray": {
-        "icon-size": 21,
-        "spacing": 10
+    "memory": {
+        "format": "{}% "
     },
     "cpu": {
         "format": "{usage}% "
