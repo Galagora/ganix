@@ -19,6 +19,7 @@ in {
     # ./hardened.nix
     ./home.nix
     ./binbash.nix
+    ./openvpn.nix
   ];
   # nix.nixPath = ["nixos-config=/etc/nixos/configuration.nix"];
   nixpkgs.pkgs = import sources.nixpkgs {config = {
@@ -37,8 +38,6 @@ in {
       nur = (import final.sources.NUR {
         pkgs = import final.sources.nixpkgs {};
       }).repos;
-      openjdk14-bin = prev.callPackage ./openjdk14-bin.nix {};
-      jdk7 = (import final.sources.jdk7pkgs {}).jdk7;# .overrideAttrs
         # (oldAttrs: with lib; with lists; with attrsets; with builtins;
         #   mapAttrsRecursive (kList: v:
         #     replaceStrings ["/lib/openjdk"] ["/lib/openjdk7"] v)
@@ -46,108 +45,77 @@ in {
         #     oldAttrs)
         # );
       chromium-dev-ozone = import final.sources.nixpkgs-chromium;
-      efl = prev.efl.overrideAttrs (oldAttrs: {
-        mesonFlags = oldAttrs.mesonFlags ++ "-D wl=true";
-      });
+      # enlightenment = prev.enlightenment.overrideScope' (
+      #   finalE: prevE: {
+      #     efl = prevE.efl.overrideAttrs (oldAttrs: {
+      #       mesonFlags = oldAttrs.mesonFlags ++ "-D wl=true";
+      #     });
+      #   }
+      # );
+      hls-ghc8102 = import final.sources.nix-hls {
+        ghcVersion = "ghc8102";
+        unstable = true;
+        # nixpkgs-pin = ;
+      };
+      haskell-language-server = prev.haskell-language-server.override {
+        supportedGhcVersions = [ "8102" ];
+      };
+      # haskell-language-server.override { supportedGhcVersions = [ "8102" ]; }
+      # stack-master = import ./stack.nix;
+      # stack-master = with prev.haskell.lib; justStaticExecutables (overrideSrc
+      #   prev.haskellPackages.stack {
+      #     src = sources.stack-g;
+      #     version = "2.4.0";
+      #   }
+      # );
+      # stack = with prev.haskell.lib; justStaticExecutables (appendPatch
+      #   prev.haskellPackages.stack (pkgs.fetchpatch {
+      #     url = "https://github.com/commercialhaskell/stack/commit/f8b7bfcf1f8553aeccd5a52720f60a65b8d66361.patch";
+      #     sha256 = "18lpr3x7iiz54b44n2xwix6hhrkbz57qm4nl4n3qvjb5wy83gysl";
+      #   }));
+      # ghcide = haskell.pac
+      ghcide-ghc8102 = (import (sources.ghcide-nix) {}).ghcide-ghc8102;
     })
+    # (final: prev: {
+    #   hls-ghc8102.hls-wrapper = prev.hls-ghc8102.hls-wrapper.overrideAttrs(old: {
+    #     patches = [(final.fetchpatch {
+    #       url = "https://github.com/haskell/ghcide/commit/0bfce3114c28bd00f7bf5729c32ec0f23a8d8854.patch";
+    #       sha256 = "1ph4apd2fyjxkzkfzlp5kkd4hzda2yw8lznhgvixqymbzdmhvsbb";
+    #     })];
+    #   });
+    # })
     (import sources.emacs-overlay)
+    # (import sources.nixpkgs-wayland)
   ];
 
   environment.binbash.enable = true;
-  nix.binaryCaches = [ "https://aseipp-nix-cache.global.ssl.fastly.net" ];
+  # nix = {
+  #  package = pkgs.nixUnstable;
+  #  extraOptions = ''
+  #    experimental-features = nix-command # flakes
+  #    keep-outputs = true
+  #    keep-derivations = true
+  #    min-free = ${toString (10 * 1024 * 1024 * 1024)}
+  #    max-free = ${toString (20 * 1024 * 1024 * 1024)}
+  #  '';
+  # };
+  # nix.package = pkgs.nixFlakes;
+  nix.extraOptions = ''
+    keep-outputs = true
+    keep-derivations = true
+    min-free = ${toString (10 * 1024 * 1024 * 1024)}
+    max-free = ${toString (20 * 1024 * 1024 * 1024)}
+  '';
+  nix.binaryCaches = [ "https://aseipp-nix-cache.global.ssl.fastly.net" "https://hydra.iohk.io "];
+  nix.binaryCachePublicKeys = [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" ];
+  # nix
   # nix.trustedUsers = ["@wheel"];
   # # VirtualBox
   # nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [
-    # Shell utilities
-    mkpasswd gitAndTools.gitFull wget unzip tealdeer pavucontrol
-    jq /*Parse JSON*/ neofetch ripgrep parted fd /*find*/
-    iftop cdrkit /*genisoimage*/ strace
-    # (lib.lowPrio busybox) /*traceroute*/
-    # System info
-    lshw lsof /*list open files*/ glxinfo inxi /*debugging info*/
-    pciutils /*lspci*/ hardinfo libva-utils
-    # Graphical utils
-    gparted brasero
-    # Monitoring
-    htop tree ncdu psmisc /*pstree killall fuser*/
-    # Network
-    nethogs bmon tcptrack slurm bind /*DNS*/
-    # speedometer
-    # Terminal Emulators
-    enlightenment.terminology termite st kitty rxvt-unicode hyper
-    # TUI apps
-    tmux lynx ranger
-    # Development
-    vim atom vscode
-    # sqlite /*for emacs*/
-    # Android
-    androidStudioPackages.canary
-    androidStudioPackages.stable
-    # emacsGcc
-    jetbrains-mono
-    jetbrains.jdk
-    jdk7
-    androidenv.androidPkgs_9_0.androidsdk
-    p7zip
-    heimdall heimdall-gui
-    flutter dart
-    gitAndTools.git-secret
-    # SIM/Modem
-    usbutils atinout modemmanager minicom tio ganixpkgs.modem-manager-gui
-    unrar gcc gdb
-    usb-modeswitch
-    glib /*gdbus*/ qt512.qttools /*qdbus*/
-    # bustle
-    dfeet gnome3.gnome-software
-    # openjdk11
-    # Shells and scripting languages
-    zsh fish elvish
-    nodejs_latest
-    perl
-    (python38.withPackages (ps: with ps; [
-      beautifulsoup4 requests regex flask
-    ]))
-    python-language-server
-    # Haskell
-    stack cabal-install
-    # Nix stuff
-    direnv lorri niv any-nix-shell
-    nix-prefetch-scripts nix-prefetch-github
-    cachix
-    appimage-run patchelf file steam-run
-    # Internet
-    firefox-wayland shadowfox # tridactyl-native
-    dejsonlz4
-    # chromium-dev-ozone
-    chromium
-    gnome3.file-roller
-    qutebrowser epiphany netsurf.browser
-    buku transmission-gtk deluge aria2
-    # Entertainment
-    youtube-dl mpv vlc spotify
-    # Documents
-    zathura # joplin-desktop
-    graphviz shotwell
-    # Virtualization
-    virt-manager qemu spice_gtk
-    # Security
-    polkit_gnome apparmor-bin-utils pass pinentry-gnome
-    # UI
-    qt5.qtwayland ly adwaita-qt breeze-icons
-    yaru-theme ubuntu-themes
-    # Desktop
-    gnome3.nautilus dolphin
-    xdg_utils xorg.xdpyinfo xorg.xrdb
-    playerctl brightnessctl
-  ] ++ ( with pkgs.python38Packages; [
-    # python-language-server
-  ]);
-
-  services.flatpak.enable = true;
-  xdg.portal.enable       = true;
-  xdg.portal.gtkUsePortal = true;
+  # services.flatpak.enable = true;
+  # xdg.portal.enable       = true;
+  # xdg.portal.gtkUsePortal = true;
   # 1. Samsung phones aren't modems
   # 2. Modeswitch for the usb modem
   services.udev.extraRules = ''
@@ -160,53 +128,31 @@ in {
   programs.command-not-found = {
     enable = true;
   };
-  programs.chromium = {
-    enable = true;
-    extensions = [
-      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # uBlock Origin
-      "eimadpbcbfnmbkopoojfekhnkhdbieeh" # Dark Reader
-      "jinjaccalgkegednnccohejagnlnfdag" # Violentmonkey
-      "dcpihecpambacapedldabdbpakmachpb;https://github.com/iamadamdev/bypass-paywalls-chrome/raw/master/updates.xml"
-      "aapbdbdomjkkjkaonfhkkikfgjllcleb" # Google Translate
-    ];
-  };
 
-  programs.adb.enable = true;
-  environment.pathsToLink = [
-    "/jars"
-  ];
-  services.emacs = {
-   enable = true;
-   defaultEditor = true;
-   package = with pkgs; ((emacsPackagesNgGen emacsUnstable).emacsWithPackages (epkgs: [
-     epkgs.vterm
-   ]));
-  };
+  # programs.adb.enable = true;
+  # environment.pathsToLink = [
+  #   "/jars"
+  # ];
+  # services.emacs = {
+  #  enable = true;
+  #  defaultEditor = true;
+  #  package = with pkgs; ((emacsPackagesNgGen emacsGcc).emacsWithPackages (epkgs: [
+  #    epkgs.vterm
+  #  ]));
+  # };
 
-  programs.zsh.enable = true;
-  programs.zsh.ohMyZsh = {
-    enable = true;
-    plugins = [
-       "git" "python" "man" "vi-mode"
-    ];
-    theme = "agnoster";
-    customPkgs = with pkgs; [
-      nix-zsh-completions deer fzf-zsh
-    ];
-  };
-  programs.zsh.autosuggestions.enable = true;
   programs.zsh.syntaxHighlighting.enable = true;
   # Use zsh in nix-shell
-  programs.zsh.promptInit = ''
-    any-nix-shell zsh --info-right | source /dev/stdin
-  '';
+  # programs.zsh.promptInit = ''
+  #   any-nix-shell zsh --info-right | source /dev/stdin
+  # '';
 
-  services.xserver.displayManager = {
-    gdm = {
-      enable = true;
-    };
-    defaultSession = "sway";
-  };
+  # services.xserver.displayManager = {
+  #   gdm = {
+  #     enable = true;
+  #   };
+  #   defaultSession = "sway";
+  # };
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -226,7 +172,7 @@ in {
       # use this if they aren't displayed properly:
       export _JAVA_AWT_WM_NONREPARENTING=1
       export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=lcd'
-
+      export CALIBRE_USE_DARK_PALETTE=1
     '';
   };
   programs.waybar.enable = true;
@@ -255,18 +201,18 @@ in {
     enable = true;
     wantedBy = ["multi-user.target"];
   };
+  hardware.usbWwan.enable = true;
   services.udev.packages = with pkgs; [
     usb-modeswitch-data
   ];
   # services.connman.enable = true;
-  services.openvpn.servers = {
+  services.openvpnl.servers = {
     USA = {
       config = "config /home/ao/downloads/us-bdn.prod.surfshark.comsurfshark_openvpn_udp.ovpn";
       autoStart = false;
       updateResolvConf = true;
-      authUserPass = with builtins; with (fromJSON (readFile ./secrets.json)).surfshark; {
-        username = username;
-        password = password;
+      authUserPass = with builtins; with (fromJSON (readFile ./secrets.json)).surfshark-USA; {
+        inherit username password;
       };
     };
   };
@@ -308,12 +254,11 @@ in {
   #   # package = pkgs.virtualbox;
   # };
 
-  programs.qt5ct.enable = true;
-  # qt5 = {
-  #   enable = true;
-  #   platformTheme = "gnome";
-  #   style = "adwaita-dark";
-  # };
+  qt5 = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
+  };
   # Don't manage users except through Nix
   users.mutableUsers = false;
   users.users.ao = {
@@ -354,12 +299,6 @@ in {
 
   time.timeZone = "Asia/Istanbul";
 
-  # When there's < 3GiB free, delete until 10GiB is free
-  nix.extraOptions = ''
-    min-free = ${toString (3 * 1024 * 1024 * 1024)}
-    # max-free = ${toString (10 * 1024 * 1024 * 1024)}
-  '';
-
   sound = {
     enable = true;
     # Legacy sound system emulation
@@ -378,7 +317,7 @@ in {
     enable = true;
     package = pkgs.bluezFull;
     config = {
-      # General = { ControllerMode = "bredr"; };
+      General = { ControllerMode = "bredr"; };
     };
   };
   services.blueman.enable = true;
@@ -392,7 +331,7 @@ in {
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest_hardened;
-  boot.resumeDevice = "/dev/disk/by-uuid/bd7707d9-7022-46de-96fb-a63a6573cbe8";
+  # boot.resumeDevice = "/dev/disk/by-uuid/bd7707d9-7022-46de-96fb-a63a6573cbe8";
 
   # swapDevices = [{
   #   device = "/swapfile";
@@ -413,6 +352,9 @@ in {
     "fs.inotify.max_user_watches" = 524288;
   };
 
+  boot.kernelModules = [
+    "usbnet" "cdc_ether"
+  ];
   # Fix sound
   boot.extraModprobeConfig = ''
     options snd slots=snd-hda-intel

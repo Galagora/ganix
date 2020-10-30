@@ -12,7 +12,7 @@ do
     Description=$(grep -Po "(?<=^Name\[en_\w{2}\]=).+" $file)
     ExecStart=$(grep -Po "(?<=^Exec=).+" $file)
     name=$(echo $file | grep -Po ".+(?=\..+$)")
-    objs+=("\"$name\": {\"description\": \"$Description\", \"wants\":[ \"autostart.service\" ], \"serviceConfig\": { \"ExecStart\": \"$ExecStart\" }},")
+    objs+=("\"$name\": {\"description\": \"$Description\", \"wants\":[ \"autostart.target\" ], \"serviceConfig\": { \"ExecStart\": \"$ExecStart\" }},")
 done
 # Turn the array to json, removing the infamous trailing comma
 echo "{${objs[@]}}" | perl -pe "s/(,)(?!.*,)//" > ~/my-conf/generated/autostart.json
