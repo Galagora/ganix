@@ -1,4 +1,4 @@
-# Update them with `niv update` before running `sudo nixos-rebuild switch`
+# Update them with `niv update && sudo nix-channel upgrade` before running `sudo nixos-rebuild switch`
 
 { config ? {},
   pkgs ? (import ./nix/sources.nix).nixpkgs,
@@ -86,7 +86,6 @@ in {
     # emacsGcc
     jetbrains-mono
     jetbrains.jdk
-    jdk7
     androidenv.androidPkgs_9_0.androidsdk
     p7zip
     heimdall heimdall-gui
@@ -212,7 +211,8 @@ in {
       swaylock swayidle mako wofi waybar dmenu bemenu
       grimshot
       wmfocus /*focus windows by label*/
-      xwayland xeyes wev /*record wayland kb events*/
+      xeyes wev /*record wayland kb events*/
+      # xwayland
       alacritty
     ];
     extraSessionCommands = ''
@@ -241,14 +241,14 @@ in {
   systemd.user.services = with builtins;
     fromJSON (readFile ./generated/autostart.json );
 
-  fonts.enableDefaultFonts = true;
-  fonts.fontconfig.defaultFonts.sansSerif = ["Ubuntu"];
-  fonts.fonts = with pkgs; [
-    source-code-pro source-sans-pro source-serif-pro
-    ubuntu_font_family font-awesome
-  ];
+  # fonts.enableDefaultFonts = true;
+  # fonts.fontconfig.defaultFonts.sansSerif = ["Ubuntu"];
+  # fonts.fonts = with pkgs; [
+  #   source-code-pro source-sans-pro source-serif-pro
+  #   ubuntu_font_family font-awesome
+  # ];
 
-  networking.networkmanager.enable = true;
+  # networking.networkmanager.enable = true;
   systemd.services.ModemManager ={
     enable = true;
     wantedBy = ["multi-user.target"];
@@ -257,17 +257,16 @@ in {
     usb-modeswitch-data
   ];
   # services.connman.enable = true;
-  services.openvpn.servers = {
-    USA = {
-      config = "config /home/ao/downloads/us-bdn.prod.surfshark.comsurfshark_openvpn_udp.ovpn";
-      autoStart = false;
-      updateResolvConf = true;
-      authUserPass = with builtins; with (fromJSON (readFile ./secrets.json)).surfshark; {
-        username = username;
-        password = password;
-      };
-    };
-  };
+  # services.openvpn.servers = {
+  #   USA = {
+  #     config = "config /home/ao/downloads/us-bdn.prod.surfshark.comsurfshark_openvpn_udp.ovpn";
+  #     autoStart = false;
+  #     updateResolvConf = true;
+  #     authUserPass = with builtins; with (fromJSON (readFile ./secrets.json)).surfshark-USA; {
+  #       inherit username password;
+  #     };
+  #   };
+  # };
 
   # Use GNOME's authentication agent
   services.gnome3.gnome-keyring.enable = true;

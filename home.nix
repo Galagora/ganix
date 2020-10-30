@@ -11,29 +11,29 @@ in {
     # services.emacs.enable = true;
     services.lorri.enable = true;
 
-    programs.zsh = {
-      localVariables = {
-        SLICE = 54;
-      };
-      enable = true;
-      oh-my-zsh = {
-        enable = true;
-        plugins = [
-          "git" "python" "man" "vi-mode"
-        ];
-        theme = "agnoster";
-        # customPkgs = with pkgs; [
-        #   nix-zsh-completions deer fzf-zsh
-        # ];
-      };
-      # defaultKeymap = "viins";
-      enableAutosuggestions = true;
-      # syntaxHighlighting.enable = true;
-      # Use zsh in nix-shell
-      initExtra = ''
-        any-nix-shell zsh --info-right | source /dev/stdin
-      '';
-    };
+    # programs.zsh = {
+    #   localVariables = {
+    #     SLICE = 54;
+    #   };
+    #   enable = true;
+    #   oh-my-zsh = {
+    #     enable = true;
+    #     plugins = [
+    #       "git" "python" "man" "vi-mode"
+    #     ];
+    #     theme = "agnoster";
+    #     # customPkgs = with pkgs; [
+    #     #   nix-zsh-completions deer fzf-zsh
+    #     # ];
+    #   };
+    #   # defaultKeymap = "viins";
+    #   enableAutosuggestions = true;
+    #   # syntaxHighlighting.enable = true;
+    #   # Use zsh in nix-shell
+    #   initExtra = ''
+    #     any-nix-shell zsh --info-right | source /dev/stdin
+    #   '';
+    # };
 
     xdg.enable = true;
     xdg.userDirs = {
@@ -122,8 +122,8 @@ in {
       "zsh-vim-mode".source = sources.zsh-vim-mode;
       # ".profile".source = ./dotfiles/.profile;
 
-      "spacemacs".source = sources.spacemacs;
-      "spacemacs".recursive = true;
+      # "spacemacs".source = sources.spacemacs;
+      # "spacemacs".recursive = true;
       # "doom-emacs".source = pkgs.fetchFromGitHub {
       #   owner = "hlissner";
       #   repo = "doom-emacs";
